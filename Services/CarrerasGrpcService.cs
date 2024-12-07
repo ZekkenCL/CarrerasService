@@ -18,7 +18,7 @@ namespace CarrerasService
 {
     var carreras = await _carrerasCollection
         .Find(_ => true)
-        .Project(c => c.Name) // Solo selecciona el campo "Name"
+        .Project(c => c.Name)
         .ToListAsync();
 
     var response = new CarreraList();
