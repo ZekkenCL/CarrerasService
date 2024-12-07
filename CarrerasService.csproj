@@ -10,14 +10,12 @@
     <PackageReference Include="Grpc.Tools" Version="2.53.0">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Core" Version="2.2.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
-    <PackageReference Include="dotenv.net" Version="3.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Protobuf Include="Protos\carreras.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\subject.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

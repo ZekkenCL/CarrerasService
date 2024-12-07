@@ -6,8 +6,8 @@ namespace CarrerasService.Models
     public class Subject
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        [BsonRepresentation(BsonType.Int32)]
+        public int Id { get; set; }
 
         [BsonElement("name")]
         public string Name { get; set; }
