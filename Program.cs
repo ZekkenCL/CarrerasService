@@ -4,10 +4,12 @@ using MongoDB.Driver;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using CarrerasService.Services;
-using CarrerasService.Config;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using CarrerasService.Services;
+using CarrerasService.Config;
+using CarreraService.Config;
+using CarreraService.Services;
 using CarrerasService;
 
 
@@ -40,7 +42,20 @@ builder.Services.AddSingleton(sp =>
     var client = sp.GetRequiredService<IMongoClient>();
     return client.GetDatabase(settings.DatabaseName);
 });
+builder.Services.Configure<RabbitMQSettings>(options =>
+{
+    options.Host = Environment.GetEnvironmentVariable("RABBITMQ_HOST");
+    options.Port = int.Parse(Environment.GetEnvironmentVariable("RABBITMQ_PORT") ?? "5672");
+    options.User = Environment.GetEnvironmentVariable("RABBITMQ_USER");
+    options.Password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD");
+    options.Queue = Environment.GetEnvironmentVariable("RABBITMQ_QUEUE");
+    options.Exchange = Environment.GetEnvironmentVariable("RABBITMQ_EXCHANGE");
+    options.RoutingKey = Environment.GetEnvironmentVariable("RABBITMQ_ROUTING_KEY");
+});
 
+builder.Services.AddSingleton<RabbitMQConnection>();
+builder.Services.AddSingleton<IMessagePublisher, RabbitMQPublisher>();
+builder.Services.AddHostedService<RabbitMQConsumer>();
 
 builder.Services.AddSingleton<SubjectsRepository>();
 builder.Services.AddSingleton<DatabaseInitializer>();
